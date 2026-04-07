@@ -20,6 +20,10 @@ export function ChatInterface() {
     address: smartAccountAddress as `0x${string}`,
   });
   
+  const { data: skBalance } = useBalance({
+    address: sessionKeyAddress as `0x${string}`,
+  });
+
   const [inputValue, setInputValue] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isReady = !!smartAccountAddress && hasSessionKey;
@@ -58,7 +62,7 @@ export function ChatInterface() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-zinc-50/30 p-2 sm:p-4 rounded-[2rem]">
       {/* Calm Status Bar */}
-      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <div className="bg-white border border-zinc-200 p-4 rounded-2xl shadow-sm">
           <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex justify-between">
             <span>Wallet (EOA)</span>
@@ -79,6 +83,20 @@ export function ChatInterface() {
             </div>
             <div className="font-mono text-xs text-zinc-300 truncate">
               {smartAccountAddress}
+            </div>
+          </div>
+        )}
+
+        {sessionKeyAddress && (
+          <div className="bg-white border border-zinc-200 p-4 rounded-2xl shadow-sm">
+            <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex justify-between">
+              <span>Agent Key</span>
+              <span className="text-blue-500 font-black">
+                {skBalance ? `${parseFloat(skBalance.formatted).toFixed(4)} ${skBalance.symbol}` : "0.00 ARC"}
+              </span>
+            </div>
+            <div className="font-mono text-xs text-zinc-600 truncate">
+              {sessionKeyAddress}
             </div>
           </div>
         )}
