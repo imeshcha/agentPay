@@ -2,6 +2,17 @@ const BACKEND_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "") ||
   "http://localhost:4000";
 
+if (typeof window !== "undefined") {
+  console.log("Backend URL configured as:", BACKEND_URL);
+  if (BACKEND_URL.includes("localhost") && window.location.hostname !== "localhost") {
+    console.warn(
+      "⚠️ WARNING: Frontend is running on Vercel but connecting to localhost! " +
+      "Please set NEXT_PUBLIC_BACKEND_URL in your Vercel project settings."
+    );
+  }
+}
+
+
 type AgentMessageResponse = {
   reply: string;
   isPayment?: boolean;
