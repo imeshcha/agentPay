@@ -2,18 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { useAccount } from "wagmi";
-import { useSmartAccount } from "@/lib/useSmartAccount";
-import { useSessionKey } from "@/lib/useSessionKey";
+import { useGlobalSetup } from "./SetupProvider";
 import { WalletConnectButton } from "./ConnectButton";
 
 export function SetupWizard({ onComplete }: { onComplete: () => void }) {
   const { isConnected, address } = useAccount();
-  const { smartAccountAddress, isLoading: isSAProccessing, createAccount, error: saError } = useSmartAccount();
-  const { hasSessionKey, setupSessionKey, isLoading: isSKProccessing, error: skError } = useSessionKey();
+  
+  // Use the global setup instead of local hooks for perfect synchronization
+  const { 
+    smartAccountAddress, 
+    hasSessionKey, 
+    createAccount, 
+    setupSessionKey, 
+    isLoading 
+  } = useGlobalSetup();
 
   const [step, setStep] = useState(1);
+  const [error, setError] = useState<string | null>(null);
 
-  // Auto-advance steps
+  // Auto-advance steps based on actual global state
   useEffect(() => {
     if (!isConnected) {
       setStep(1);
@@ -22,12 +29,28 @@ export function SetupWizard({ onComplete }: { onComplete: () => void }) {
     } else if (!hasSessionKey) {
       setStep(3);
     } else {
+      // Setup complete
       onComplete();
     }
   }, [isConnected, smartAccountAddress, hasSessionKey, onComplete]);
 
-  const error = saError || skError;
-  const isLoading = isSAProccessing || isSKProccessing;
+  const handleCreateAccount = async () => {
+    try {
+      setError(null);
+      await createAccount();
+    } catch (err: any) {
+      setError(err.message || "Failed to provision smart account.");
+    }
+  };
+
+  const handleSetupSessionKey = async () => {
+    try {
+      setError(null);
+      await setupSessionKey();
+    } catch (err: any) {
+      setError(err.message || "Failed to authorize session key.");
+    }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -88,7 +111,7 @@ export function SetupWizard({ onComplete }: { onComplete: () => void }) {
                 </div>
               </div>
               <button
-                onClick={createAccount}
+                onClick={handleCreateAccount}
                 disabled={isLoading}
                 className="w-full bg-black text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-[1.02] active:scale-98 transition-all disabled:opacity-50 disabled:scale-100 shadow-xl shadow-black/10"
               >
@@ -117,7 +140,7 @@ export function SetupWizard({ onComplete }: { onComplete: () => void }) {
                 </div>
               </div>
               <button
-                onClick={setupSessionKey}
+                onClick={handleSetupSessionKey}
                 disabled={isLoading}
                 className="w-full bg-black text-white py-5 rounded-2xl font-black uppercase tracking-widest text-sm hover:scale-[1.02] active:scale-98 transition-all disabled:opacity-50 disabled:scale-100 shadow-xl shadow-black/10"
               >
