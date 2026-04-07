@@ -13,7 +13,13 @@ const PORT = process.env.PORT || 4000;
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://arc-agent-pay.vercel.app",
+      /\.vercel\.app$/,
+      /\.onrender\.com$/,
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -25,6 +31,7 @@ app.get("/", (req, res) => {
   res.json({
     status: "running",
     message: "Arc Agent Pay backend",
+    environment: process.env.NODE_ENV || "development",
     endpoints: [
       "POST /account/create",
       "GET  /account/:address",
@@ -45,7 +52,29 @@ app.use("/agent", agentRoutes);
 app.use("/payments", paymentRoutes);
 app.use("/contacts", contactRoutes);
 
+// Keep-alive ping — only runs on Render production
+// Prevents the free tier from sleeping after 15 minutes
+if (process.env.NODE_ENV === "production") {
+  setInterval(async () => {
+    try {
+      const url =
+        process.env.RENDER_EXTERNAL_URL ||
+        "https://arc-agent-pay-backend.onrender.com";
+      await fetch(url);
+      console.log("Keep-alive ping sent to:", url);
+    } catch (err) {
+      console.log("Keep-alive ping failed:", err.message);
+    }
+  }, 14 * 60 * 1000); // every 14 minutes
+}
+
 app.listen(PORT, () => {
-  console.log(`\nArc Agent Pay backend running at http://localhost:${PORT}`);
-  console.log(`Visit http://localhost:${PORT} to see all endpoints\n`);
+  if (process.env.NODE_ENV === "production") {
+    console.log(`\nArc Agent Pay backend running on port ${PORT}`);
+    console.log(`Environment: production (Render)`);
+  } else {
+    console.log(`\nArc Agent Pay backend running at http://localhost:${PORT}`);
+    console.log(`Environment: development (local)`);
+    console.log(`Test it: http://localhost:${PORT}/\n`);
+  }
 });
