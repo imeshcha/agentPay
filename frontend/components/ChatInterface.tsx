@@ -38,32 +38,32 @@ export function ChatInterface() {
 
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 bg-[#F0F0E8] border-2 border-dashed border-zinc-300 rounded-xl">
-        <p className="text-zinc-900 text-xl font-black uppercase tracking-tighter mb-2">
-          AUTH_REQUIRED
+      <div className="flex flex-col items-center justify-center py-24 bg-white border border-zinc-200 rounded-3xl shadow-sm">
+        <p className="text-zinc-900 text-2xl font-extrabold tracking-tight mb-2">
+          Ready to start?
         </p>
-        <p className="text-zinc-500 text-xs font-medium uppercase tracking-tight">
-          Connect your wallet to initialize protocol
+        <p className="text-zinc-500 text-sm font-medium leading-relaxed max-w-xs text-center px-6">
+          Connect your wallet to set up your AI payment agent.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col h-full min-h-0">
-      {/* Brutalist Info Bar */}
-      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="border-2 border-black bg-white p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-          <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">WALLET_EOA_LINK</div>
-          <div className="font-mono text-xs text-black font-bold">
-            {address?.toUpperCase()}
+    <div className="flex flex-col h-full min-h-0 bg-zinc-50/30 p-2 sm:p-4 rounded-[2rem]">
+      {/* Calm Status Bar */}
+      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="bg-white border border-zinc-200 p-4 rounded-2xl shadow-sm">
+          <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5">Wallet Connected</div>
+          <div className="font-mono text-xs text-zinc-600 truncate">
+            {address}
           </div>
         </div>
         {smartAccountAddress && (
-          <div className="border-2 border-black bg-black p-3 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]">
-            <div className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1 text-white/50">SMART_ACCOUNT_CORE</div>
-            <div className="font-mono text-xs text-white font-bold">
-              {smartAccountAddress.toUpperCase()}
+          <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl shadow-sm">
+            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5">Smart Account Address</div>
+            <div className="font-mono text-xs text-zinc-300 truncate">
+              {smartAccountAddress}
             </div>
           </div>
         )}
@@ -72,14 +72,17 @@ export function ChatInterface() {
       {isReady && <ContactsPanel />}
 
       {isReady && (
-        <div className="mt-4 flex flex-col flex-1">
+        <div className="mt-2 flex flex-col flex-1">
           {/* Messages container */}
-          <div className="mb-6 min-h-[400px] max-h-[600px] overflow-y-auto border-4 border-black bg-white p-6 shadow-[inset_0px_4px_12px_rgba(0,0,0,0.05)]">
+          <div className="mb-6 min-h-[450px] max-h-[650px] overflow-y-auto bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm">
             {messages.length === 0 ? (
-              <div className="flex h-full items-center justify-center text-zinc-300 grayscale opacity-20">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                </svg>
+              <div className="flex h-full items-center justify-center text-zinc-200">
+                <div className="text-center">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="mx-auto mb-4 opacity-20">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                  <p className="text-sm font-bold uppercase tracking-widest opacity-30">Waiting for your first message</p>
+                </div>
               </div>
             ) : (
               messages.map((message) => (
@@ -90,41 +93,41 @@ export function ChatInterface() {
           </div>
 
           {/* Input control set */}
-          <div className="relative">
-            <div className="flex gap-2 p-1 border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="relative group">
+            <div className="flex gap-2 p-2 bg-white border border-zinc-200 rounded-[2rem] shadow-lg transition-all focus-within:shadow-xl focus-within:border-zinc-300">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="PROMPT: PAY 5 USDC TO ALICE..."
-                className="flex-1 bg-transparent px-4 py-4 font-mono text-sm font-bold text-black placeholder-zinc-300 focus:outline-none disabled:opacity-50 uppercase"
+                placeholder="Type a message (e.g. 'Pay 5 USDC to Alice')"
+                className="flex-1 bg-transparent px-5 py-4 font-medium text-black placeholder-zinc-300 focus:outline-none disabled:opacity-50"
                 disabled={isLoading}
               />
               
               <button
                 onClick={handleSend}
                 disabled={isLoading || !inputValue.trim()}
-                className="group flex items-center justify-center bg-black px-8 py-4 font-black text-white uppercase tracking-widest transition-all hover:bg-zinc-800 disabled:bg-zinc-300"
+                className="flex items-center justify-center bg-black px-8 py-4 rounded-[1.5rem] font-extrabold text-white text-sm transition-all hover:scale-[1.02] active:scale-[0.98] disabled:bg-zinc-200 disabled:scale-100"
               >
-                {isLoading ? "..." : "EXECUTE"}
+                {isLoading ? "..." : "Send"}
               </button>
               
               <button
                 onClick={clearMessages}
-                className="border-l-2 border-black px-4 text-black hover:bg-zinc-100"
-                title="TERMINATE_SESSION"
+                className="px-5 text-zinc-300 hover:text-black transition-colors"
+                title="Clear messages"
               >
                 ✕
               </button>
             </div>
             
-            <div className="mt-4 flex items-center justify-between px-1">
-              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-                Protocol_Limit: 100.00_USDC
+            <div className="mt-4 flex items-center justify-between px-6">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                Daily Limit: 100.00 USDC
               </span>
-              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
-                Interface_Stable: 200ms_RTT
+              <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-widest">
+                Protected by Session Keys
               </span>
             </div>
           </div>
@@ -132,4 +135,5 @@ export function ChatInterface() {
       )}
     </div>
   );
-}
+}
+

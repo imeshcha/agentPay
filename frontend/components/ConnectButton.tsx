@@ -90,9 +90,9 @@ export function WalletConnectButton() {
               <button
                 onClick={() => setConnectModalOpen(true)}
                 type="button"
-                className="rounded-full bg-black px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-zinc-800 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
+                className="rounded-full bg-black px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/10"
               >
-                CONNECT_PROTOCOL
+                Connect Wallet
               </button>
             );
           }
@@ -102,9 +102,9 @@ export function WalletConnectButton() {
               <button
                 onClick={() => setNetworkModalOpen(true)}
                 type="button"
-                className="rounded-full border-2 border-red-500 bg-red-50 px-6 py-2.5 text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-100"
+                className="rounded-full border border-red-200 bg-red-50 px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-red-600 hover:bg-red-100"
               >
-                CHAIN_ERROR
+                Network Error
               </button>
             );
           }
@@ -114,7 +114,7 @@ export function WalletConnectButton() {
               <button
                 onClick={() => setNetworkModalOpen(true)}
                 type="button"
-                className="hidden sm:block border-2 border-black bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100"
+                className="hidden sm:block border border-zinc-200 bg-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:bg-zinc-50"
               >
                 {chain.name}
               </button>
@@ -123,22 +123,22 @@ export function WalletConnectButton() {
                 <button
                   onClick={() => setMenuOpen((prev) => !prev)}
                   type="button"
-                  className="rounded-full bg-black px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-zinc-800 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
+                  className="rounded-full bg-black px-6 py-2.5 text-xs font-bold uppercase tracking-widest text-white transition-all hover:scale-105 shadow-lg shadow-black/10"
                 >
                   {account.displayName}
                 </button>
 
                 {menuOpen && (
-                  <div className="absolute right-0 top-full z-50 mt-4 w-52 overflow-hidden border-2 border-black bg-white p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                  <div className="absolute right-0 top-full z-50 mt-4 w-56 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-2xl">
                     <button
                       type="button"
                       onClick={async () => {
                         await copyText(account.address, "wallet");
                         setMenuOpen(false);
                       }}
-                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
+                      className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-50 rounded-xl"
                     >
-                      Copy_Address
+                      Copy Wallet Address
                     </button>
                     <button
                       type="button"
@@ -146,9 +146,9 @@ export function WalletConnectButton() {
                         setMenuOpen(false);
                         setDetailsOpen(true);
                       }}
-                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
+                      className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-50 rounded-xl"
                     >
-                      Security_Details
+                      Security Settings
                     </button>
                     <button
                       type="button"
@@ -156,73 +156,73 @@ export function WalletConnectButton() {
                         setMenuOpen(false);
                         setInstructionsOpen(true);
                       }}
-                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
+                      className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-50 rounded-xl"
                     >
-                      Protocol_Documentation
+                      How it works
                     </button>
+                    <div className="h-px bg-zinc-100 my-1 mx-2" />
                     <button
                       type="button"
                       onClick={() => {
                         disconnect();
                         setMenuOpen(false);
                       }}
-                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50"
+                      className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-red-500 hover:bg-red-50 rounded-xl"
                     >
-                      Terminate_Connection
+                      Disconnect
                     </button>
                   </div>
                 )}
 
                 {detailsOpen && (
-                  <div className="absolute right-0 top-full z-40 mt-4 w-[380px] border-4 border-black bg-[#F0F0E8] p-4 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-                    <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-2">
-                        <span className="text-xs font-black uppercase tracking-widest">Security_Details</span>
-                        <button onClick={() => setDetailsOpen(false)} className="text-black font-black">✕</button>
+                  <div className="absolute right-0 top-full z-40 mt-4 w-[400px] border border-zinc-200 bg-white p-6 rounded-3xl shadow-2xl">
+                    <div className="mb-6 flex items-center justify-between">
+                        <span className="text-sm font-extrabold tracking-tight">Security & Accounts</span>
+                        <button onClick={() => setDetailsOpen(false)} className="text-zinc-400 hover:text-black">✕</button>
                     </div>
                     
-                    <div className="mb-4 border-2 border-black bg-white p-3">
-                      <div className="mb-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">SMART_ACCOUNT_CORE</div>
-                      <p className="break-all font-mono text-[11px] font-bold text-black mb-3">
-                        {smartAccountAddress || "NOT_INITIALIZED_ERROR"}
+                    <div className="mb-6 bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
+                      <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Your Smart Account</div>
+                      <p className="break-all font-mono text-[11px] text-zinc-600 mb-4 bg-white p-3 border border-zinc-100 rounded-xl">
+                        {smartAccountAddress || "No account found"}
                       </p>
                       {smartAccountAddress && (
-                        <div className="flex gap-2">
-                          <button
-                            type="button"
-                            onClick={() => copyText(smartAccountAddress, "smart")}
-                            className="bg-black px-2 py-1 text-[9px] font-black text-white uppercase hover:bg-zinc-800"
-                          >
-                            {copiedField === "smart" ? "COPIED" : "COPY_ADDRESS"}
-                          </button>
-                        </div>
+                        <button
+                          type="button"
+                          onClick={() => copyText(smartAccountAddress, "smart")}
+                          className="bg-black px-4 py-2 rounded-xl text-[10px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 transition-colors"
+                        >
+                          {copiedField === "smart" ? "Copied" : "Copy Smart Address"}
+                        </button>
                       )}
                       {!smartAccountAddress && (
                         <button
                           type="button"
                           onClick={createAccount}
                           disabled={isAccountLoading}
-                          className="w-full bg-black px-4 py-2 text-xs font-black text-white hover:bg-zinc-800 disabled:opacity-50"
+                          className="w-full bg-black px-4 py-3 rounded-xl text-[11px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50"
                         >
-                          {isAccountLoading ? "INITIALIZING..." : "INITIALIZE_SMART_ACCOUNT"}
+                          {isAccountLoading ? "Setting up..." : "Setup Smart Account"}
                         </button>
                       )}
                     </div>
 
-                    <div className="border-2 border-black bg-white p-3">
-                      <div className="mb-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">AGENT_DELEGATION_STATE</div>
-                      <p className="text-[11px] font-bold text-black mb-3">
-                        {hasSessionKey
-                          ? "DELEGATION_ACTIVE_RECURRING_PAYMENTS_ENABLED"
-                          : "DELEGATION_PENDING_MANUAL_AUTH_REQUIRED"}
-                      </p>
+                    <div className="bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
+                      <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Agent Authorization</div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className={`h-2 w-2 rounded-full ${hasSessionKey ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-amber-500'}`} />
+                        <p className="text-xs font-bold text-zinc-700">
+                          {hasSessionKey ? "Automated payments active" : "Manual authorization required"}
+                        </p>
+                      </div>
                       {!hasSessionKey && smartAccountAddress && (
                         <button
                           type="button"
                           onClick={setupSessionKey}
                           disabled={isSessionLoading}
-                          className="w-full bg-black px-4 py-2 text-xs font-black text-white hover:bg-zinc-800 disabled:opacity-50"
+                          className="w-full bg-black px-4 py-3 rounded-xl text-[11px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50"
                         >
-                          {isSessionLoading ? "AUTHORIZING..." : "AUTHORIZE_DELEGATION"}
+                          {isSessionLoading ? "Authorizing..." : "Grant Permission"}
                         </button>
                       )}
                     </div>
@@ -237,9 +237,9 @@ export function WalletConnectButton() {
       {isMounted &&
         connectModalOpen &&
         createPortal(
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-sm border-4 border-black bg-white p-6 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
-              <h3 className="mb-4 text-xl font-black uppercase tracking-tighter text-black">INITIALIZE_CONNECTION</h3>
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-sm border border-zinc-200 bg-white p-8 rounded-[2rem] shadow-2xl">
+              <h3 className="mb-6 text-2xl font-extrabold tracking-tight text-black">Connect</h3>
               <div className="space-y-3">
                 {connectors.map((connector) => (
                   <button
@@ -250,7 +250,7 @@ export function WalletConnectButton() {
                       setConnectModalOpen(false);
                     }}
                     disabled={isConnectPending}
-                    className="w-full border-2 border-black bg-white px-4 py-3 text-left font-black uppercase tracking-widest text-black transition-colors hover:bg-zinc-100 disabled:opacity-50"
+                    className="w-full border border-zinc-200 bg-zinc-50 px-5 py-4 rounded-2xl text-left font-bold text-zinc-700 transition-all hover:bg-white hover:border-zinc-300 hover:shadow-md disabled:opacity-50"
                   >
                     {connector.name}
                   </button>
@@ -258,9 +258,9 @@ export function WalletConnectButton() {
                 <button
                   type="button"
                   onClick={() => setConnectModalOpen(false)}
-                  className="w-full px-4 py-2 text-[10px] font-black uppercase text-zinc-400 hover:text-black"
+                  className="w-full px-4 py-1 text-[11px] font-bold uppercase text-zinc-400 hover:text-black mt-4"
                 >
-                  ABORT_SESSION
+                  Cancel
                 </button>
               </div>
             </div>
@@ -271,9 +271,9 @@ export function WalletConnectButton() {
       {isMounted &&
         networkModalOpen &&
         createPortal(
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-sm border-4 border-black bg-white p-6 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
-              <h3 className="mb-4 text-xl font-black uppercase tracking-tighter text-black">SELECT_GRID_CORE</h3>
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-sm border border-zinc-200 bg-white p-8 rounded-[2rem] shadow-2xl">
+              <h3 className="mb-6 text-2xl font-extrabold tracking-tight text-black">Switch Network</h3>
               <div className="space-y-3">
                 {chains.map((network) => {
                   const active = network.id === chainId;
@@ -289,13 +289,13 @@ export function WalletConnectButton() {
                       }}
                       disabled={isSwitchPending}
                       className={
-                        "w-full border-2 px-4 py-3 text-left font-black uppercase tracking-widest transition-colors " +
+                        "w-full px-5 py-4 rounded-2xl text-left font-bold transition-all " +
                         (active
-                          ? "bg-black text-white border-black"
-                          : "bg-white text-black border-black hover:bg-zinc-100")
+                          ? "bg-black text-white shadow-lg"
+                          : "bg-zinc-50 text-zinc-600 border border-zinc-100 hover:bg-white hover:border-zinc-300")
                       }
                     >
-                      {network.name} {active ? "(CORE_STABLE)" : ""}
+                      {network.name} {active ? "(Active)" : ""}
                     </button>
                   );
                 })}
@@ -309,67 +309,68 @@ export function WalletConnectButton() {
         instructionsOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
             onMouseDown={(e) => {
               if (e.target === e.currentTarget) setInstructionsOpen(false);
             }}
           >
-            <div className="w-full max-w-2xl border-4 border-black bg-[#F0F0E8] p-8 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-              <div className="mb-10 flex items-center justify-between border-b-2 border-black pb-4">
+            <div className="w-full max-w-2xl border border-zinc-200 bg-white p-10 rounded-[2.5rem] shadow-2xl">
+              <div className="mb-12 flex items-center justify-between">
                 <div>
-                  <h3 className="text-3xl font-black uppercase tracking-tighter text-black">Protocol_Documentation</h3>
-                  <p className="mt-1 text-[10px] font-bold uppercase text-zinc-500 tracking-widest">Initializing_Infrastructure_Sequence</p>
+                  <h3 className="text-3xl font-extrabold tracking-tight text-black">How it works</h3>
+                  <p className="mt-2 text-sm font-medium text-zinc-400 leading-relaxed">Start using your smart agent in three simple steps.</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setInstructionsOpen(false)}
-                  className="text-2xl font-black text-black"
+                  className="p-3 bg-zinc-50 rounded-full text-zinc-400 hover:text-black transition-colors"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                   {
                     step: "01",
-                    title: "Initialize_Core",
-                    desc: "Handshake with EOA wallet to create smart infrastructure bank account.",
+                    title: "Setup Account",
+                    desc: "Handshake with your wallet to create a secure smart account.",
                   },
                   {
                     step: "02",
-                    title: "Authorize_Agent",
-                    desc: "Delegate spending authority to AI settlement agent via secure cryptographic session key.",
+                    title: "Grant Access",
+                    desc: "Grant spending permissions via a one-time session key.",
                   },
                   {
                     step: "03",
-                    title: "Execute_Command",
-                    desc: "Deploy instructions via natural language chat interface for immediate asset settlement.",
+                    title: "Chat to Pay",
+                    desc: "Send commands in natural language to settle payments.",
                   },
                 ].map((item) => (
-                  <div key={item.step} className="flex gap-4 border-2 border-black bg-white p-4 items-start shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                    <span className="text-lg font-black text-zinc-300">{item.step}</span>
+                  <div key={item.step} className="flex flex-col gap-4 bg-zinc-50/50 border border-zinc-100 p-6 rounded-[2rem]">
+                    <span className="text-4xl font-extrabold text-zinc-200">{item.step}</span>
                     <div>
-                      <div className="text-sm font-black uppercase text-black mb-1">{item.title}</div>
-                      <div className="text-[11px] font-bold text-zinc-600 uppercase tracking-tight leading-relaxed">{item.desc}</div>
+                      <div className="text-sm font-extrabold text-black mb-2">{item.title}</div>
+                      <div className="text-xs font-medium text-zinc-500 leading-relaxed">{item.desc}</div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 border-2 border-black bg-black p-4">
-                <div className="mb-3 text-[10px] font-black uppercase tracking-widest text-zinc-500">Supported_Commands</div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-mono text-white/80">
-                  <div className="border border-white/20 p-2">"PAY 5 USDC TO ALICE"</div>
-                  <div className="border border-white/20 p-2">"SAVE 0x... AS BOB"</div>
-                  <div className="border border-white/20 p-2">"SHOW MY CONTACTS"</div>
-                  <div className="border border-white/20 p-2">"REMOVE ALICE"</div>
+              <div className="mt-10 border border-zinc-100 bg-zinc-50 rounded-[2rem] p-8">
+                <div className="mb-6 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Example Commands</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Pay 5 USDC to Alice"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Save 0x... as Bob"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Show my contacts"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Remove Alice"</div>
                 </div>
               </div>
             </div>
           </div>,
           document.body
         )}
+
     </div>
   );
 }

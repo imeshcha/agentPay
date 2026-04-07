@@ -34,23 +34,24 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       <div className={"max-w-[85%] sm:max-w-md " + (isUser ? "items-end" : "items-start") + " flex flex-col"}>
         
         {/* Message label */}
-        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1 px-1">
-          {isUser ? "Authorized_User" : "Agent_System"}
+        <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5 px-2">
+          {isUser ? "You" : "Zing Agent"}
         </span>
 
         {/* Message bubble */}
         <div
           className={
-            "px-4 py-3 border-2 text-sm font-bold leading-relaxed " +
+            "px-5 py-3.5 border text-sm font-medium leading-relaxed rounded-2xl " +
             (isUser
-              ? "bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
+              ? "bg-zinc-900 text-white border-zinc-900 shadow-md"
               : message.isError
-              ? "bg-red-50 border-red-500 text-red-700"
-              : "bg-white text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]")
+              ? "bg-red-50 border-red-200 text-red-600 shadow-sm"
+              : "bg-white text-zinc-900 border-zinc-200 shadow-sm")
           }
         >
           {message.content}
         </div>
+
 
         {/* Payment receipt */}
         {!isUser && message.isPayment && message.txHash && message.explorerUrl && (
