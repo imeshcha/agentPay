@@ -132,23 +132,13 @@ export function WalletConnectButton() {
                   <div className="absolute right-0 top-full z-50 mt-4 w-56 overflow-hidden rounded-2xl border border-zinc-200 bg-white p-2 shadow-2xl">
                     <button
                       type="button"
-                      onClick={async () => {
-                        await copyText(account.address, "wallet");
-                        setMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-50 rounded-xl"
-                    >
-                      Copy Wallet Address
-                    </button>
-                    <button
-                      type="button"
                       onClick={() => {
                         setMenuOpen(false);
                         setDetailsOpen(true);
                       }}
                       className="w-full px-4 py-3 text-left text-[11px] font-bold uppercase tracking-widest text-zinc-600 hover:bg-zinc-50 rounded-xl"
                     >
-                      Security Settings
+                      Account Addresses
                     </button>
                     <button
                       type="button"
@@ -177,16 +167,32 @@ export function WalletConnectButton() {
                 {detailsOpen && (
                   <div className="absolute right-0 top-full z-40 mt-4 w-[400px] border border-zinc-200 bg-white p-6 rounded-3xl shadow-2xl">
                     <div className="mb-6 flex items-center justify-between">
-                        <span className="text-sm font-extrabold tracking-tight">Security & Accounts</span>
+                        <span className="text-sm font-extrabold tracking-tight">Account Addresses</span>
                         <button onClick={() => setDetailsOpen(false)} className="text-zinc-400 hover:text-black">✕</button>
                     </div>
                     
+                    {/* Wallet Address (EOA) */}
                     <div className="mb-6 bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
-                      <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Your Smart Account</div>
+                      <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Connected Wallet (EOA)</div>
+                      <p className="break-all font-mono text-[11px] text-zinc-600 mb-4 bg-white p-3 border border-zinc-100 rounded-xl">
+                        {account.address}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => copyText(account.address, "wallet")}
+                        className="bg-black px-4 py-2 rounded-xl text-[10px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 transition-colors"
+                      >
+                        {copiedField === "wallet" ? "Copied" : "Copy Wallet Address"}
+                      </button>
+                    </div>
+
+                    {/* Smart Account Address */}
+                    <div className="mb-6 bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
+                      <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Secure Smart Account</div>
                       <p className="break-all font-mono text-[11px] text-zinc-600 mb-4 bg-white p-3 border border-zinc-100 rounded-xl">
                         {smartAccountAddress || "No account found"}
                       </p>
-                      {smartAccountAddress && (
+                      {smartAccountAddress ? (
                         <button
                           type="button"
                           onClick={() => copyText(smartAccountAddress, "smart")}
@@ -194,8 +200,7 @@ export function WalletConnectButton() {
                         >
                           {copiedField === "smart" ? "Copied" : "Copy Smart Address"}
                         </button>
-                      )}
-                      {!smartAccountAddress && (
+                      ) : (
                         <button
                           type="button"
                           onClick={createAccount}
@@ -209,7 +214,7 @@ export function WalletConnectButton() {
 
                     <div className="bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
                       <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Agent Authorization</div>
-                      <div className="flex items-center gap-2 mb-4">
+                      <div className="flex items-center gap-2">
                         <div className={`h-2 w-2 rounded-full ${hasSessionKey ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]' : 'bg-amber-500'}`} />
                         <p className="text-xs font-bold text-zinc-700">
                           {hasSessionKey ? "Automated payments active" : "Manual authorization required"}
@@ -220,7 +225,7 @@ export function WalletConnectButton() {
                           type="button"
                           onClick={setupSessionKey}
                           disabled={isSessionLoading}
-                          className="w-full bg-black px-4 py-3 rounded-xl text-[11px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50"
+                          className="w-full mt-4 bg-black px-4 py-3 rounded-xl text-[11px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50"
                         >
                           {isSessionLoading ? "Authorizing..." : "Grant Permission"}
                         </button>
@@ -228,6 +233,7 @@ export function WalletConnectButton() {
                     </div>
                   </div>
                 )}
+
               </div>
             </div>
           );
