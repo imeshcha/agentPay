@@ -92,8 +92,8 @@ export function ChatInterface() {
 
       {isReady && (
         <div className="mt-2 flex flex-col flex-1">
-          {/* Messages container */}
-          <div className="mb-6 min-h-[450px] max-h-[650px] overflow-y-auto bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm">
+          {/* Messages container - Fixed height with internal scroll */}
+          <div className="mb-6 h-[500px] md:h-[60vh] overflow-y-auto bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm scroll-smooth">
             {messages.length === 0 ? (
               <div className="flex h-full items-center justify-center text-zinc-200">
                 <div className="text-center">
