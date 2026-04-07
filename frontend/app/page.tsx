@@ -77,7 +77,7 @@ export default function Home() {
       </div>
 
       <footer className="relative z-10 py-10 border-t border-black/5 flex flex-col items-center">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">© 2026 ZingPay__Autonomous_Protocol</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">© 2026 _ Developed By Imesh Chathura (Non-commercial showcase project)</p>
       </footer>
     </main>
   );
