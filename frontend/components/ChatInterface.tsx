@@ -19,7 +19,7 @@ export function ChatInterface() {
   const { data: saBalance } = useBalance({
     address: smartAccountAddress as `0x${string}`,
   });
-  
+
   const { data: skBalance } = useBalance({
     address: sessionKeyAddress as `0x${string}`,
   });
@@ -93,7 +93,7 @@ export function ChatInterface() {
       {isReady && (
         <div className="mt-2 flex flex-col flex-1">
           {/* Messages container - Fixed height with internal scroll */}
-          <div className="mb-6 h-[500px] md:h-[60vh] overflow-y-auto bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm scroll-smooth">
+          <div className="mb-6 h-[500px] md:h-[50vh] overflow-y-auto bg-white border border-zinc-200 rounded-3xl p-6 shadow-sm scroll-smooth">
             {messages.length === 0 ? (
               <div className="flex h-full items-center justify-center text-zinc-200">
                 <div className="text-center">
@@ -123,7 +123,7 @@ export function ChatInterface() {
                 className="flex-1 bg-transparent px-5 py-4 font-medium text-black placeholder-zinc-300 focus:outline-none disabled:opacity-50"
                 disabled={isLoading}
               />
-              
+
               <button
                 onClick={handleSend}
                 disabled={isLoading || !inputValue.trim()}
@@ -131,7 +131,7 @@ export function ChatInterface() {
               >
                 {isLoading ? "..." : "Send"}
               </button>
-              
+
               <button
                 onClick={clearMessages}
                 className="px-5 text-zinc-300 hover:text-black transition-colors"
@@ -140,7 +140,7 @@ export function ChatInterface() {
                 ✕
               </button>
             </div>
-            
+
             <div className="mt-4 flex items-center justify-between px-6">
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
                 Daily Limit: 100.00 USDC
@@ -155,4 +155,4 @@ export function ChatInterface() {
     </div>
   );
 }
-
+
