@@ -1,24 +1,14 @@
+"use client";
+
 import { WalletConnectButton } from "@/components/ConnectButton";
 import { ChatInterface } from "@/components/ChatInterface";
 import { SetupWizard } from "@/components/SetupWizard";
-import { useSmartAccount } from "@/lib/useSmartAccount";
-import { useSessionKey } from "@/lib/useSessionKey";
+import { useGlobalSetup } from "@/components/SetupProvider";
 import Link from "next/link";
-import { useState, useEffect } from "react";
 
 export default function ChatPage() {
-  const { smartAccountAddress } = useSmartAccount();
-  const { hasSessionKey } = useSessionKey();
-  const [isSetupComplete, setIsSetupComplete] = useState(false);
-
-  // Sync setup complete status
-  useEffect(() => {
-    if (smartAccountAddress && hasSessionKey) {
-      setIsSetupComplete(true);
-    } else {
-      setIsSetupComplete(false);
-    }
-  }, [smartAccountAddress, hasSessionKey]);
+  // Use the global setup state instead of local hooks for perfect sync
+  const { isReady, isLoading } = useGlobalSetup();
 
   return (
     <main className="relative min-h-screen pb-20 selection:bg-black selection:text-white bg-[#F0F0E8]">
@@ -46,7 +36,7 @@ export default function ChatPage() {
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-10">
         <div className="mb-6 flex items-center justify-between">
             <h1 className="text-xl font-extrabold text-black">
-              {isSetupComplete ? "Payments_Dashboard" : "Onboarding_Process"}
+              {isReady ? "Payments_Dashboard_Active" : "Agent_Onboarding_Wizard"}
             </h1>
             <Link href="/" className="text-xs font-bold text-zinc-600 hover:text-black transition-colors">
               ← Back to Home
@@ -54,9 +44,11 @@ export default function ChatPage() {
         </div>
         
         {/* Conditional Layer: Setup Wizard or Chat Interface */}
-        <div className={!isSetupComplete ? "" : "rounded-[2.5rem] border border-zinc-200 bg-white p-2 shadow-[0_32px_64px_-20px_rgba(0,0,0,0.08)]"}>
-          {!isSetupComplete ? (
-            <SetupWizard onComplete={() => setIsSetupComplete(true)} />
+        <div className={!isReady ? "" : "rounded-[2.5rem] border border-zinc-200 bg-white p-2 shadow-[0_32px_64px_-20px_rgba(0,0,0,0.08)]"}>
+          {!isReady ? (
+            <div className="animate-fade-in">
+              <SetupWizard onComplete={() => {}} />
+            </div>
           ) : (
             <ChatInterface />
           )}
@@ -69,4 +61,3 @@ export default function ChatPage() {
     </main>
   );
 }
-

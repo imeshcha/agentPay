@@ -4,6 +4,7 @@ import { RainbowKitProvider, darkTheme, getDefaultConfig } from "@rainbow-me/rai
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { arcTestnet } from "@/lib/arcChain";
+import { SetupProvider } from "./SetupProvider";
 
 const config = getDefaultConfig({
   appName: "Arc Agent Pay",
@@ -24,7 +25,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
             borderRadius: "large",
           })}
         >
-          {children}
+          <SetupProvider>
+            {children}
+          </SetupProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
