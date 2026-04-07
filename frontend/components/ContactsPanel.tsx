@@ -131,7 +131,7 @@ export function ContactsPanel() {
           {/* Contacts list */}
           {contacts.length === 0 ? (
             <p className="py-2 text-center text-sm text-slate-400">
-              No contacts yet. Add one above or say "Save 0x... as Alice" in chat.
+              No contacts yet. Add one above.
             </p>
           ) : (
             <div className="space-y-2">
