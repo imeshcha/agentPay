@@ -62,7 +62,7 @@ export function ChatInterface() {
   return (
     <div className="flex flex-col h-full min-h-0 bg-zinc-50/30 p-2 sm:p-4 rounded-[2rem]">
       {/* Calm Status Bar */}
-      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="bg-white border border-zinc-200 p-4 rounded-2xl shadow-sm">
           <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex justify-between">
             <span>Wallet (EOA)</span>
@@ -73,29 +73,15 @@ export function ChatInterface() {
           </div>
         </div>
 
-        {smartAccountAddress && (
+        {sessionKeyAddress && (
           <div className="bg-zinc-900 border border-zinc-800 p-4 rounded-2xl shadow-sm group">
             <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1.5 flex justify-between">
               <span>Smart Account</span>
               <span className="text-emerald-500 font-black">
-                {saBalance ? `${parseFloat(saBalance.formatted).toFixed(4)} ${saBalance.symbol}` : "0.00 ARC"}
-              </span>
-            </div>
-            <div className="font-mono text-xs text-zinc-300 truncate">
-              {smartAccountAddress}
-            </div>
-          </div>
-        )}
-
-        {sessionKeyAddress && (
-          <div className="bg-white border border-zinc-200 p-4 rounded-2xl shadow-sm">
-            <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1.5 flex justify-between">
-              <span>Agent Key</span>
-              <span className="text-blue-500 font-black">
                 {skBalance ? `${parseFloat(skBalance.formatted).toFixed(4)} ${skBalance.symbol}` : "0.00 ARC"}
               </span>
             </div>
-            <div className="font-mono text-xs text-zinc-600 truncate">
+            <div className="font-mono text-xs text-zinc-300 truncate">
               {sessionKeyAddress}
             </div>
           </div>
