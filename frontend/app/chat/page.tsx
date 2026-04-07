@@ -19,7 +19,7 @@ export default function ChatPage() {
       <nav className="relative z-10 flex items-center justify-between border-b border-black/5 bg-white/60 backdrop-blur px-6 py-6 sm:px-12">
         <Link href="/" className="flex flex-col">
           <span className="text-2xl font-extrabold tracking-tighter text-black">ZingPay</span>
-          <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Protocol Core v1.0</span>
+          <span className="text-[10px] uppercase font-bold text-zinc-500 tracking-widest">Agentic Payment Protocol</span>
         </Link>
         <div className="flex items-center gap-4">
           <WalletConnectButton />
