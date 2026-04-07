@@ -9,6 +9,8 @@ const {
 const { privateKeyToAccount } = require("viem/accounts");
 const { createClient } = require("@supabase/supabase-js");
 const CryptoJS = require("crypto-js");
+const fetch = require("node-fetch");
+
 
 // ── Arc testnet configuration ─────────────────────────────────────────────────
 const arcTestnet = {

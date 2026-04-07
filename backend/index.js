@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const fetch = require("node-fetch");
+
 
 const accountRoutes = require("./routes/account");
 const sessionRoutes = require("./routes/session");
@@ -59,7 +61,7 @@ if (process.env.NODE_ENV === "production") {
     try {
       const url =
         process.env.RENDER_EXTERNAL_URL ||
-        "https://arc-agent-pay-backend.onrender.com";
+        "https://agentpay-qunp.onrender.com";
       await fetch(url);
       console.log("Keep-alive ping sent to:", url);
     } catch (err) {
