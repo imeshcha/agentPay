@@ -432,6 +432,27 @@ export function WalletConnectButton() {
                   </div>
                 ))}
               </div>
+
+              {/* Chat commands section */}
+              <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5">
+                <p className="mb-3 text-sm font-semibold text-white">
+                  Chat commands:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
+                    "Save 0x123... as Alice"
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
+                    "Pay 5 USDC to Alice"
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
+                    "Show my contacts"
+                  </div>
+                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
+                    "Remove Alice"
+                  </div>
+                </div>
+              </div>
             </div>
           </div>,
           document.body

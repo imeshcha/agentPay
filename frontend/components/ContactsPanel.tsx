@@ -163,24 +163,6 @@ export function ContactsPanel() {
             </div>
           )}
 
-          {/* Chat hint */}
-          <div className="mt-4 rounded-lg border border-white/10 bg-black/20 p-3">
-            <p className="mb-1 text-xs font-medium text-slate-300">
-              Chat commands:
-            </p>
-            <p className="text-slate-400 text-xs">
-              "Save 0x123... as Alice"
-            </p>
-            <p className="text-slate-400 text-xs">
-              "Pay 5 USDC to Alice"
-            </p>
-            <p className="text-slate-400 text-xs">
-              "Show my contacts"
-            </p>
-            <p className="text-slate-400 text-xs">
-              "Remove Alice"
-            </p>
-          </div>
         </div>
       )}
     </div>
