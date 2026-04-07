@@ -14,32 +14,21 @@ export function ChatInterface() {
   const { hasSessionKey } = useSessionKey();
   const { messages, isLoading, sendMessage, clearMessages } = useChat();
 
-  // Input field state
   const [inputValue, setInputValue] = useState("");
-
-  // Ref to the bottom of the messages list
-  // Used to auto-scroll when new messages arrive
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Agent is fully ready when smart account + session key both exist
   const isReady = !!smartAccountAddress && hasSessionKey;
 
-  // Auto-scroll to bottom whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Handle send button click or Enter key
   const handleSend = async () => {
     if (!inputValue.trim() || !address || isLoading || !isReady) return;
-
     const messageToSend = inputValue;
-    setInputValue(""); // Clear input immediately
-
+    setInputValue("");
     await sendMessage(messageToSend, address);
   };
 
-  // Handle Enter key in input
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -47,15 +36,14 @@ export function ChatInterface() {
     }
   };
 
-  // Not connected state
   if (!isConnected) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 rounded-2xl border border-dashed border-white/20 bg-white/[0.03]">
-        <p className="text-slate-200 text-lg font-medium mb-2">
-          Connect your wallet to start
+      <div className="flex flex-col items-center justify-center py-20 bg-[#F0F0E8] border-2 border-dashed border-zinc-300 rounded-xl">
+        <p className="text-zinc-900 text-xl font-black uppercase tracking-tighter mb-2">
+          AUTH_REQUIRED
         </p>
-        <p className="text-slate-400 text-sm">
-          Your smart account will be set up automatically
+        <p className="text-zinc-500 text-xs font-medium uppercase tracking-tight">
+          Connect your wallet to initialize protocol
         </p>
       </div>
     );
@@ -63,102 +51,85 @@ export function ChatInterface() {
 
   return (
     <div className="flex flex-col h-full min-h-0">
-
-      {/* Wallet info bar */}
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-white/10 bg-white/[0.05] p-3 backdrop-blur">
-        <div>
-          <span className="text-slate-400 text-xs">EOA wallet: </span>
-          <span className="text-emerald-300 font-mono text-xs">
-            {address?.slice(0, 6)}...{address?.slice(-4)}
-          </span>
+      {/* Brutalist Info Bar */}
+      <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="border-2 border-black bg-white p-3 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">WALLET_EOA_LINK</div>
+          <div className="font-mono text-xs text-black font-bold">
+            {address?.toUpperCase()}
+          </div>
         </div>
         {smartAccountAddress && (
-          <div>
-            <span className="text-slate-400 text-xs">Smart account: </span>
-            <span className="text-indigo-300 font-mono text-xs">
-              {smartAccountAddress.slice(0, 6)}...
-              {smartAccountAddress.slice(-4)}
-            </span>
+          <div className="border-2 border-black bg-black p-3 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]">
+            <div className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1 text-white/50">SMART_ACCOUNT_CORE</div>
+            <div className="font-mono text-xs text-white font-bold">
+              {smartAccountAddress.toUpperCase()}
+            </div>
           </div>
         )}
       </div>
 
-      {/* Contacts panel — shown after setup complete */}
       {isReady && <ContactsPanel />}
 
-      {/* Chat messages area — only shown when ready */}
       {isReady && (
-        <>
+        <div className="mt-4 flex flex-col flex-1">
           {/* Messages container */}
-          <div className="mb-3 flex-1 min-h-64 max-h-96 overflow-y-auto rounded-2xl border border-white/10 bg-black/20 p-4">
-
-            {/* Render each message */}
-            {messages.map((message) => (
-              <MessageBubble key={message.id} message={message} />
-            ))}
-
-            {/* Invisible div at the bottom for auto-scroll */}
+          <div className="mb-6 min-h-[400px] max-h-[600px] overflow-y-auto border-4 border-black bg-white p-6 shadow-[inset_0px_4px_12px_rgba(0,0,0,0.05)]">
+            {messages.length === 0 ? (
+              <div className="flex h-full items-center justify-center text-zinc-300 grayscale opacity-20">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+              </div>
+            ) : (
+              messages.map((message) => (
+                <MessageBubble key={message.id} message={message} />
+              ))
+            )}
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input area */}
-          <div className="flex gap-3">
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder='Try: "Pay 1 USDC to 0x742d35Cc..."'
-              className="flex-1 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder-slate-400 focus:border-indigo-400 focus:outline-none disabled:opacity-50 transition-colors"
-              disabled={isLoading}
-            />
-
-            {/* Send button */}
-            <button
-              onClick={handleSend}
-              disabled={isLoading || !inputValue.trim()}
-              className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-5 py-3 text-sm font-medium text-white shadow-[0_12px_24px_-16px_rgba(99,102,241,0.9)] transition-all duration-200 hover:from-indigo-400 hover:to-violet-400 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              {isLoading ? (
-                <svg
-                  className="animate-spin h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12" cy="12" r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8H4z"
-                  />
-                </svg>
-              ) : (
-                "Send"
-              )}
-            </button>
-
-            {/* Clear chat button */}
-            <button
-              onClick={clearMessages}
-              className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 text-sm text-slate-300 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white"
-              title="Clear chat"
-            >
-              ✕
-            </button>
+          {/* Input control set */}
+          <div className="relative">
+            <div className="flex gap-2 p-1 border-4 border-black bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="PROMPT: PAY 5 USDC TO ALICE..."
+                className="flex-1 bg-transparent px-4 py-4 font-mono text-sm font-bold text-black placeholder-zinc-300 focus:outline-none disabled:opacity-50 uppercase"
+                disabled={isLoading}
+              />
+              
+              <button
+                onClick={handleSend}
+                disabled={isLoading || !inputValue.trim()}
+                className="group flex items-center justify-center bg-black px-8 py-4 font-black text-white uppercase tracking-widest transition-all hover:bg-zinc-800 disabled:bg-zinc-300"
+              >
+                {isLoading ? "..." : "EXECUTE"}
+              </button>
+              
+              <button
+                onClick={clearMessages}
+                className="border-l-2 border-black px-4 text-black hover:bg-zinc-100"
+                title="TERMINATE_SESSION"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="mt-4 flex items-center justify-between px-1">
+              <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
+                Protocol_Limit: 100.00_USDC
+              </span>
+              <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">
+                Interface_Stable: 200ms_RTT
+              </span>
+            </div>
           </div>
-
-          {/* Hint text below input */}
-          <p className="mt-2 text-center text-xs text-slate-400">
-            Press Enter to send · Max 100 USDC per transaction
-          </p>
-        </>
+        </div>
       )}
     </div>
   );
-}
+}

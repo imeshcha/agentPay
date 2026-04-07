@@ -20,7 +20,6 @@ export function ContactsPanel() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Load contacts when panel opens
   useEffect(() => {
     if (isOpen && address) {
       loadContacts();
@@ -39,19 +38,17 @@ export function ContactsPanel() {
 
   const handleAdd = async () => {
     if (!address || !newName.trim() || !newAddress.trim()) return;
-
     setIsLoading(true);
     setError(null);
     setSuccess(null);
-
     try {
       await addContactAPI(address, newName.trim(), newAddress.trim());
-      setSuccess(newName + " saved successfully!");
+      setSuccess(newName.toUpperCase() + " SAVED_SUCCESSFULLY");
       setNewName("");
       setNewAddress("");
       loadContacts();
     } catch (err: any) {
-      setError(err.message || "Failed to save contact");
+      setError(err.message || "SAVE_ERROR");
     } finally {
       setIsLoading(false);
     }
@@ -72,99 +69,84 @@ export function ContactsPanel() {
   if (!isConnected) return null;
 
   return (
-    <div className="mb-4">
-
-      {/* Toggle button */}
+    <div className="mb-6">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-slate-300 transition-colors hover:bg-white/[0.06] hover:text-white"
+        className="flex items-center gap-3 border-2 border-black bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-zinc-100"
       >
-        <span>{isOpen ? "▼" : "▶"}</span>
-        <span>Contacts ({contacts.length})</span>
+        <span>{isOpen ? "[-]" : "[+]"}</span>
+        <span>DIRECTORY_CONTACT_LIST ({contacts.length})</span>
       </button>
 
-      {/* Panel */}
       {isOpen && (
-        <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 backdrop-blur">
-
-          {/* Add new contact form */}
-          <div className="mb-4">
-            <p className="text-slate-300 text-xs font-medium mb-2">
-              Add contact
+        <div className="mt-4 border-2 border-black bg-[#F0F0E8] p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+          <div className="mb-6">
+            <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-3">
+              APPEND_NEW_CONTACT
             </p>
 
-            <div className="flex gap-2 mb-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <input
                 type="text"
-                placeholder="Name (e.g. Alice)"
+                placeholder="NAME..."
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                className="flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-indigo-400 focus:outline-none"
+                className="flex-1 border-2 border-black bg-white px-3 py-2 font-mono text-xs font-bold uppercase text-black placeholder-zinc-300 focus:outline-none"
               />
               <input
                 type="text"
-                placeholder="0x address"
+                placeholder="0x_ADDRESS..."
                 value={newAddress}
                 onChange={(e) => setNewAddress(e.target.value)}
-                className="flex-1 rounded-lg border border-white/10 bg-black/20 px-3 py-2 text-sm text-white placeholder-slate-500 focus:border-indigo-400 focus:outline-none font-mono"
+                className="flex-1 border-2 border-black bg-white px-3 py-2 font-mono text-xs font-bold text-black placeholder-zinc-300 focus:outline-none"
               />
               <button
                 onClick={handleAdd}
                 disabled={isLoading || !newName.trim() || !newAddress.trim()}
-                className="whitespace-nowrap rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-2 text-sm font-medium text-white transition-all hover:from-indigo-400 hover:to-violet-400 disabled:opacity-50"
+                className="bg-black px-6 py-2 text-[10px] font-black uppercase tracking-widest text-white hover:bg-zinc-800 disabled:opacity-50"
               >
-                {isLoading ? "..." : "Save"}
+                {isLoading ? "..." : "COMMIT"}
               </button>
             </div>
 
-            {/* Success message */}
-            {success && (
-              <p className="text-emerald-300 text-xs">{success}</p>
-            )}
-
-            {/* Error message */}
-            {error && (
-              <p className="text-red-200 text-xs">{error}</p>
-            )}
+            {success && <p className="mt-2 text-[9px] font-black text-emerald-600 uppercase tracking-widest">{success}</p>}
+            {error && <p className="mt-2 text-[9px] font-black text-red-600 uppercase tracking-widest">{error}</p>}
           </div>
 
-          {/* Contacts list */}
-          {contacts.length === 0 ? (
-            <p className="py-2 text-center text-sm text-slate-400">
-              No contacts yet. Add one above.
+          <div className="space-y-2">
+            <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-3 border-b border-black/10 pb-1">
+              SAVED_DATABASE_RECORDS
             </p>
-          ) : (
-            <div className="space-y-2">
-              <p className="mb-2 text-xs font-medium text-slate-300">
-                Saved contacts
+            {contacts.length === 0 ? (
+              <p className="py-4 text-center font-mono text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+                NULL_DATA_RECORDS_FOUND
               </p>
-              {contacts.map((contact) => (
+            ) : (
+              contacts.map((contact) => (
                 <div
                   key={contact.id}
-                  className="flex items-center justify-between rounded-lg border border-white/10 bg-black/20 px-3 py-2"
+                  className="flex items-center justify-between border-b border-black/10 bg-white/40 px-3 py-2 last:border-0"
                 >
-                  <div>
-                    <span className="text-white text-sm font-medium capitalize">
+                  <div className="flex flex-col">
+                    <span className="text-[11px] font-black uppercase text-black">
                       {contact.contact_name}
                     </span>
-                    <span className="ml-2 text-xs font-mono text-slate-400">
-                      {contact.contact_address.slice(0, 6)}...
-                      {contact.contact_address.slice(-4)}
+                    <span className="font-mono text-[9px] font-bold text-zinc-500">
+                      {contact.contact_address.toUpperCase()}
                     </span>
                   </div>
                   <button
                     onClick={() => handleRemove(contact.contact_name)}
-                    className="ml-2 text-xs text-slate-400 transition-colors hover:text-red-300"
+                    className="text-[9px] font-black uppercase tracking-widest text-zinc-400 hover:text-red-600"
                   >
-                    Remove
+                    PURGE_RECORD
                   </button>
                 </div>
-              ))}
-            </div>
-          )}
-
+              ))
+            )}
+          </div>
         </div>
       )}
     </div>
   );
-}
+}

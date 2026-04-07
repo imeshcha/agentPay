@@ -10,30 +10,19 @@ type MessageBubbleProps = {
 export function MessageBubble({ message }: MessageBubbleProps) {
   const isUser = message.role === "user";
 
-  // Format timestamp — shows "3:45 PM"
   const timeString = message.timestamp.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
 
-  // Loading bubble — animated dots
   if (message.isLoading) {
     return (
-      <div className="flex justify-start mb-4">
-        <div className="max-w-xs rounded-2xl rounded-tl-sm border border-white/10 bg-white/[0.05] px-4 py-3 backdrop-blur">
+      <div className="flex justify-start mb-6">
+        <div className="border-2 border-dashed border-zinc-400 bg-white px-4 py-3">
           <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-slate-400 rounded-full
-                            animate-bounce"
-              style={{ animationDelay: "0ms" }}
-            />
-            <div className="w-2 h-2 bg-slate-400 rounded-full
-                            animate-bounce"
-              style={{ animationDelay: "150ms" }}
-            />
-            <div className="w-2 h-2 bg-slate-400 rounded-full
-                            animate-bounce"
-              style={{ animationDelay: "300ms" }}
-            />
+            <span className="font-mono text-[10px] font-black text-zinc-400 animate-pulse uppercase">
+              Processing_Data...
+            </span>
           </div>
         </div>
       </div>
@@ -41,29 +30,31 @@ export function MessageBubble({ message }: MessageBubbleProps) {
   }
 
   return (
-    <div className={"flex mb-4 " + (isUser ? "justify-end" : "justify-start")}>
-      <div className={"max-w-sm lg:max-w-md " + (isUser ? "items-end" : "items-start") + " flex flex-col"}>
+    <div className={"flex mb-6 " + (isUser ? "justify-end" : "justify-start")}>
+      <div className={"max-w-[85%] sm:max-w-md " + (isUser ? "items-end" : "items-start") + " flex flex-col"}>
+        
+        {/* Message label */}
+        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1 px-1">
+          {isUser ? "Authorized_User" : "Agent_System"}
+        </span>
 
         {/* Message bubble */}
         <div
           className={
-            "px-4 py-3 rounded-2xl text-sm leading-relaxed " +
+            "px-4 py-3 border-2 text-sm font-bold leading-relaxed " +
             (isUser
-              ? // User bubble — right side, indigo
-                "bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-tr-sm shadow-[0_10px_26px_-16px_rgba(99,102,241,0.95)]"
+              ? "bg-black text-white border-black shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
               : message.isError
-              ? // Error bubble — red tint
-                "bg-red-950/60 border border-red-700/70 text-red-200 rounded-tl-sm"
-              : // Agent bubble — left side, dark gray
-                "border border-white/10 bg-white/[0.05] text-slate-100 rounded-tl-sm backdrop-blur")
+              ? "bg-red-50 border-red-500 text-red-700"
+              : "bg-white text-black border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]")
           }
         >
           {message.content}
         </div>
 
-        {/* Payment receipt — shown below agent bubble if payment succeeded */}
+        {/* Payment receipt */}
         {!isUser && message.isPayment && message.txHash && message.explorerUrl && (
-          <div className="w-full mt-1">
+          <div className="w-full mt-2">
             <PaymentReceipt
               txHash={message.txHash}
               explorerUrl={message.explorerUrl}
@@ -72,10 +63,10 @@ export function MessageBubble({ message }: MessageBubbleProps) {
         )}
 
         {/* Timestamp */}
-        <span className="text-slate-400 text-xs mt-1 px-1">
-          {timeString}
+        <span className="text-[9px] font-black text-zinc-400 mt-1 uppercase">
+          {timeString} // TX_ID: {message.id.slice(0, 8)}
         </span>
       </div>
     </div>
   );
-}
+}

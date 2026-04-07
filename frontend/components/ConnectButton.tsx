@@ -13,13 +13,6 @@ import {
 import { useSmartAccount } from "@/lib/useSmartAccount";
 import { useSessionKey } from "@/lib/useSessionKey";
 
-// RainbowKit's ConnectButton handles everything:
-// - Shows "Connect Wallet" when not connected
-// - Shows wallet address + balance when connected
-// - Handles network switching
-// - Shows disconnect option
-// We wrap it so we can add custom styling around it
-
 export function WalletConnectButton() {
   const { disconnect } = useDisconnect();
   const { chainId } = useAccount();
@@ -97,9 +90,9 @@ export function WalletConnectButton() {
               <button
                 onClick={() => setConnectModalOpen(true)}
                 type="button"
-                className="rounded-xl bg-gradient-to-r from-indigo-500 to-violet-500 px-4 py-2 text-sm font-medium text-white shadow-[0_12px_24px_-16px_rgba(99,102,241,0.9)] transition-all hover:from-indigo-400 hover:to-violet-400"
+                className="rounded-full bg-black px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-zinc-800 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
               >
-                Connect Wallet
+                CONNECT_PROTOCOL
               </button>
             );
           }
@@ -109,19 +102,19 @@ export function WalletConnectButton() {
               <button
                 onClick={() => setNetworkModalOpen(true)}
                 type="button"
-                className="rounded-xl border border-red-400/40 bg-red-500/10 px-4 py-2 text-sm font-medium text-red-200 transition-colors hover:bg-red-500/20"
+                className="rounded-full border-2 border-red-500 bg-red-50 px-6 py-2.5 text-xs font-black uppercase tracking-widest text-red-600 hover:bg-red-100"
               >
-                Wrong network
+                CHAIN_ERROR
               </button>
             );
           }
 
           return (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setNetworkModalOpen(true)}
                 type="button"
-                className="rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-xs text-slate-200 transition-colors hover:bg-white/[0.1]"
+                className="hidden sm:block border-2 border-black bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100"
               >
                 {chain.name}
               </button>
@@ -130,46 +123,22 @@ export function WalletConnectButton() {
                 <button
                   onClick={() => setMenuOpen((prev) => !prev)}
                   type="button"
-                  className="rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-white/[0.1]"
+                  className="rounded-full bg-black px-6 py-2.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-zinc-800 shadow-[4px_4px_0px_0px_rgba(209,209,198,1)]"
                 >
                   {account.displayName}
-                  {account.displayBalance ? ` (${account.displayBalance})` : ""}
                 </button>
 
                 {menuOpen && (
-                  <div className="absolute right-0 top-full z-50 mt-2 w-44 overflow-hidden rounded-xl border border-white/10 bg-slate-900/95 p-1 shadow-xl backdrop-blur">
+                  <div className="absolute right-0 top-full z-50 mt-4 w-52 overflow-hidden border-2 border-black bg-white p-1 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                     <button
                       type="button"
                       onClick={async () => {
                         await copyText(account.address, "wallet");
                         setMenuOpen(false);
-                        setDetailsOpen(false);
                       }}
-                      className="w-full rounded-lg px-3 py-2 text-left text-xs text-slate-200 transition-colors hover:bg-white/10"
+                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
                     >
-                      Copy address
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        disconnect();
-                        setMenuOpen(false);
-                        setDetailsOpen(false);
-                      }}
-                      className="w-full rounded-lg px-3 py-2 text-left text-xs text-red-300 transition-colors hover:bg-red-500/20"
-                    >
-                      Disconnect
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setMenuOpen(false);
-                        setDetailsOpen(false);
-                        setInstructionsOpen(true);
-                      }}
-                      className="w-full rounded-lg px-3 py-2 text-left text-xs text-slate-300 transition-colors hover:bg-white/10"
-                    >
-                      Instructions
+                      Copy_Address
                     </button>
                     <button
                       type="button"
@@ -177,105 +146,86 @@ export function WalletConnectButton() {
                         setMenuOpen(false);
                         setDetailsOpen(true);
                       }}
-                      className="w-full rounded-lg px-3 py-2 text-left text-xs text-slate-300 transition-colors hover:bg-white/10"
+                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
                     >
-                      More wallet options
+                      Security_Details
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMenuOpen(false);
+                        setInstructionsOpen(true);
+                      }}
+                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-black hover:bg-zinc-100 border-b-2 border-black last:border-0"
+                    >
+                      Protocol_Documentation
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        disconnect();
+                        setMenuOpen(false);
+                      }}
+                      className="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest text-red-600 hover:bg-red-50"
+                    >
+                      Terminate_Connection
                     </button>
                   </div>
                 )}
 
                 {detailsOpen && (
-                  <div className="absolute right-0 top-full z-40 mt-2 w-[360px] space-y-3 rounded-2xl border border-white/10 bg-slate-950/95 p-3 shadow-2xl backdrop-blur">
-                    <div className="rounded-xl border border-emerald-400/40 bg-emerald-500/10 p-3">
-                      <div className="mb-2 flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-emerald-300" />
-                        <span className="text-sm font-medium text-emerald-300">
-                          Smart account active
-                        </span>
-                      </div>
-                      <div className="rounded-lg border border-emerald-300/40 bg-emerald-300/10 p-2">
-                        <p className="break-all font-mono text-[11px] text-emerald-100">
-                          {smartAccountAddress || "Not created yet"}
-                        </p>
-                      </div>
+                  <div className="absolute right-0 top-full z-40 mt-4 w-[380px] border-4 border-black bg-[#F0F0E8] p-4 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+                    <div className="mb-4 flex items-center justify-between border-b-2 border-black pb-2">
+                        <span className="text-xs font-black uppercase tracking-widest">Security_Details</span>
+                        <button onClick={() => setDetailsOpen(false)} className="text-black font-black">✕</button>
+                    </div>
+                    
+                    <div className="mb-4 border-2 border-black bg-white p-3">
+                      <div className="mb-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">SMART_ACCOUNT_CORE</div>
+                      <p className="break-all font-mono text-[11px] font-bold text-black mb-3">
+                        {smartAccountAddress || "NOT_INITIALIZED_ERROR"}
+                      </p>
                       {smartAccountAddress && (
-                        <button
-                          type="button"
-                          onClick={() => copyText(smartAccountAddress, "smart")}
-                          className="mt-2 rounded-md border border-emerald-300/40 bg-emerald-400/20 px-2 py-1 text-[11px] font-medium text-emerald-100 transition-colors hover:bg-emerald-400/30"
-                        >
-                          {copiedField === "smart" ? "Copied" : "Copy smart account"}
-                        </button>
-                      )}
-                      {smartAccountAddress && (
-                        <a
-                          href={`https://testnet.arcscan.app/address/${smartAccountAddress}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="mt-2 inline-block text-xs text-emerald-300 hover:text-emerald-200"
-                        >
-                          View on ArcScan →
-                        </a>
+                        <div className="flex gap-2">
+                          <button
+                            type="button"
+                            onClick={() => copyText(smartAccountAddress, "smart")}
+                            className="bg-black px-2 py-1 text-[9px] font-black text-white uppercase hover:bg-zinc-800"
+                          >
+                            {copiedField === "smart" ? "COPIED" : "COPY_ADDRESS"}
+                          </button>
+                        </div>
                       )}
                       {!smartAccountAddress && (
                         <button
                           type="button"
                           onClick={createAccount}
                           disabled={isAccountLoading}
-                          className="mt-2 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 px-3 py-1.5 text-xs font-medium text-white transition-all hover:from-indigo-400 hover:to-violet-400 disabled:opacity-50"
+                          className="w-full bg-black px-4 py-2 text-xs font-black text-white hover:bg-zinc-800 disabled:opacity-50"
                         >
-                          {isAccountLoading ? "Creating..." : "Create smart account"}
+                          {isAccountLoading ? "INITIALIZING..." : "INITIALIZE_SMART_ACCOUNT"}
                         </button>
-                      )}
-                      {accountError && (
-                        <p className="mt-2 text-xs text-red-200">{accountError}</p>
                       )}
                     </div>
 
-                    <div className="rounded-xl border border-cyan-400/40 bg-cyan-500/10 p-3">
-                      <div className="mb-2 flex items-center gap-2">
-                        <div className="h-2 w-2 rounded-full bg-cyan-300" />
-                        <span className="text-sm font-medium text-cyan-300">
-                          Agent authorized
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-200">
+                    <div className="border-2 border-black bg-white p-3">
+                      <div className="mb-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">AGENT_DELEGATION_STATE</div>
+                      <p className="text-[11px] font-bold text-black mb-3">
                         {hasSessionKey
-                          ? "The agent can now execute payments automatically."
-                          : "Agent is not authorized yet."}
+                          ? "DELEGATION_ACTIVE_RECURRING_PAYMENTS_ENABLED"
+                          : "DELEGATION_PENDING_MANUAL_AUTH_REQUIRED"}
                       </p>
-                      <p className="mt-2 text-[11px] text-cyan-200">
-                        Agent wallet address
-                      </p>
-                      <div className="mt-1 rounded-lg border border-cyan-300/40 bg-cyan-300/10 p-2">
-                        <p className="break-all font-mono text-[11px] text-cyan-100">
-                          {sessionKeyAddress || "Not available"}
-                        </p>
-                      </div>
-                      {sessionKeyAddress && (
-                        <button
-                          type="button"
-                          onClick={() => copyText(sessionKeyAddress, "agent")}
-                          className="mt-2 rounded-md border border-cyan-300/40 bg-cyan-400/20 px-2 py-1 text-[11px] font-medium text-cyan-100 transition-colors hover:bg-cyan-400/30"
-                        >
-                          {copiedField === "agent" ? "Copied" : "Copy agent address"}
-                        </button>
-                      )}
                       {!hasSessionKey && smartAccountAddress && (
                         <button
                           type="button"
                           onClick={setupSessionKey}
                           disabled={isSessionLoading}
-                          className="mt-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 px-3 py-1.5 text-xs font-medium text-white transition-all hover:from-cyan-400 hover:to-blue-400 disabled:opacity-50"
+                          className="w-full bg-black px-4 py-2 text-xs font-black text-white hover:bg-zinc-800 disabled:opacity-50"
                         >
-                          {isSessionLoading ? "Authorizing..." : "Authorize agent"}
+                          {isSessionLoading ? "AUTHORIZING..." : "AUTHORIZE_DELEGATION"}
                         </button>
                       )}
-                      {sessionError && (
-                        <p className="mt-2 text-xs text-red-200">{sessionError}</p>
-                      )}
                     </div>
-
                   </div>
                 )}
               </div>
@@ -287,22 +237,10 @@ export function WalletConnectButton() {
       {isMounted &&
         connectModalOpen &&
         createPortal(
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950 p-4 shadow-2xl">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-white">Connect wallet</h3>
-                <button
-                  type="button"
-                  onClick={() => setConnectModalOpen(false)}
-                  className="rounded-md px-2 py-1 text-slate-300 hover:bg-white/10 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="mb-3 text-xs text-slate-400">
-                Choose a wallet provider to continue.
-              </p>
-              <div className="space-y-2">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-sm border-4 border-black bg-white p-6 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+              <h3 className="mb-4 text-xl font-black uppercase tracking-tighter text-black">INITIALIZE_CONNECTION</h3>
+              <div className="space-y-3">
                 {connectors.map((connector) => (
                   <button
                     key={connector.uid}
@@ -312,11 +250,18 @@ export function WalletConnectButton() {
                       setConnectModalOpen(false);
                     }}
                     disabled={isConnectPending}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 text-left text-sm text-white transition-colors hover:bg-white/[0.08] disabled:opacity-50"
+                    className="w-full border-2 border-black bg-white px-4 py-3 text-left font-black uppercase tracking-widest text-black transition-colors hover:bg-zinc-100 disabled:opacity-50"
                   >
                     {connector.name}
                   </button>
                 ))}
+                <button
+                  type="button"
+                  onClick={() => setConnectModalOpen(false)}
+                  className="w-full px-4 py-2 text-[10px] font-black uppercase text-zinc-400 hover:text-black"
+                >
+                  ABORT_SESSION
+                </button>
               </div>
             </div>
           </div>,
@@ -326,22 +271,10 @@ export function WalletConnectButton() {
       {isMounted &&
         networkModalOpen &&
         createPortal(
-          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-md rounded-2xl border border-white/10 bg-slate-950 p-4 shadow-2xl">
-              <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-sm font-semibold text-white">Select network</h3>
-                <button
-                  type="button"
-                  onClick={() => setNetworkModalOpen(false)}
-                  className="rounded-md px-2 py-1 text-slate-300 hover:bg-white/10 hover:text-white"
-                >
-                  ✕
-                </button>
-              </div>
-              <p className="mb-3 text-xs text-slate-400">
-                Switch to the correct chain for transactions.
-              </p>
-              <div className="space-y-2">
+          <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+            <div className="w-full max-w-sm border-4 border-black bg-white p-6 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+              <h3 className="mb-4 text-xl font-black uppercase tracking-tighter text-black">SELECT_GRID_CORE</h3>
+              <div className="space-y-3">
                 {chains.map((network) => {
                   const active = network.id === chainId;
                   return (
@@ -356,14 +289,13 @@ export function WalletConnectButton() {
                       }}
                       disabled={isSwitchPending}
                       className={
-                        "w-full rounded-xl border px-3 py-3 text-left text-sm transition-colors disabled:opacity-50 " +
+                        "w-full border-2 px-4 py-3 text-left font-black uppercase tracking-widest transition-colors " +
                         (active
-                          ? "border-indigo-400/60 bg-indigo-500/15 text-indigo-200"
-                          : "border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.08]")
+                          ? "bg-black text-white border-black"
+                          : "bg-white text-black border-black hover:bg-zinc-100")
                       }
                     >
-                      {network.name}
-                      {active ? " (Current)" : ""}
+                      {network.name} {active ? "(CORE_STABLE)" : ""}
                     </button>
                   );
                 })}
@@ -377,80 +309,61 @@ export function WalletConnectButton() {
         instructionsOpen &&
         createPortal(
           <div
-            className="fixed inset-0 z-[120] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
             onMouseDown={(e) => {
               if (e.target === e.currentTarget) setInstructionsOpen(false);
             }}
           >
-            <div className="w-full max-w-3xl rounded-2xl border border-white/10 bg-slate-950 p-6 shadow-2xl">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="w-full max-w-2xl border-4 border-black bg-[#F0F0E8] p-8 shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
+              <div className="mb-10 flex items-center justify-between border-b-2 border-black pb-4">
                 <div>
-                  <h3 className="text-base font-semibold text-white">Instructions</h3>
-                  <p className="mt-1 text-xs text-slate-400">
-                    How to use Arc Agent Pay in 3 simple steps
-                  </p>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter text-black">Protocol_Documentation</h3>
+                  <p className="mt-1 text-[10px] font-bold uppercase text-zinc-500 tracking-widest">Initializing_Infrastructure_Sequence</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => setInstructionsOpen(false)}
-                  className="rounded-md px-2 py-1 text-slate-300 hover:bg-white/10 hover:text-white"
+                  className="text-2xl font-black text-black"
                 >
                   ✕
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-6">
                 {[
                   {
-                    step: "1",
-                    title: "Connect wallet",
-                    desc: "Your smart account is created automatically on Arc",
-                    accent: "indigo",
+                    step: "01",
+                    title: "Initialize_Core",
+                    desc: "Handshake with EOA wallet to create smart infrastructure bank account.",
                   },
                   {
-                    step: "2",
-                    title: "Set up agent",
-                    desc: "Sign once to grant the agent spending permissions",
-                    accent: "cyan",
+                    step: "02",
+                    title: "Authorize_Agent",
+                    desc: "Delegate spending authority to AI settlement agent via secure cryptographic session key.",
                   },
                   {
-                    step: "3",
-                    title: "Pay by chat",
-                    desc: "Type payment instructions — agent executes instantly",
-                    accent: "violet",
+                    step: "03",
+                    title: "Execute_Command",
+                    desc: "Deploy instructions via natural language chat interface for immediate asset settlement.",
                   },
                 ].map((item) => (
-                  <div
-                    key={item.step}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[0_10px_32px_-20px_rgba(99,102,241,0.55)] backdrop-blur transition-colors hover:bg-white/[0.08]"
-                  >
-                    <div className="mb-2 text-sm font-semibold text-indigo-300">
-                      Step {item.step}
+                  <div key={item.step} className="flex gap-4 border-2 border-black bg-white p-4 items-start shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <span className="text-lg font-black text-zinc-300">{item.step}</span>
+                    <div>
+                      <div className="text-sm font-black uppercase text-black mb-1">{item.title}</div>
+                      <div className="text-[11px] font-bold text-zinc-600 uppercase tracking-tight leading-relaxed">{item.desc}</div>
                     </div>
-                    <div className="mb-1 text-sm font-medium text-white">{item.title}</div>
-                    <div className="text-xs text-slate-400">{item.desc}</div>
                   </div>
                 ))}
               </div>
 
-              {/* Chat commands section */}
-              <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5">
-                <p className="mb-3 text-sm font-semibold text-white">
-                  Chat commands:
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
-                    "Save 0x123... as Alice"
-                  </div>
-                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
-                    "Pay 5 USDC to Alice"
-                  </div>
-                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
-                    "Show my contacts"
-                  </div>
-                  <div className="rounded-lg border border-white/10 bg-black/20 p-3 italic text-slate-300">
-                    "Remove Alice"
-                  </div>
+              <div className="mt-8 border-2 border-black bg-black p-4">
+                <div className="mb-3 text-[10px] font-black uppercase tracking-widest text-zinc-500">Supported_Commands</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px] font-mono text-white/80">
+                  <div className="border border-white/20 p-2">"PAY 5 USDC TO ALICE"</div>
+                  <div className="border border-white/20 p-2">"SAVE 0x... AS BOB"</div>
+                  <div className="border border-white/20 p-2">"SHOW MY CONTACTS"</div>
+                  <div className="border border-white/20 p-2">"REMOVE ALICE"</div>
                 </div>
               </div>
             </div>
@@ -459,4 +372,4 @@ export function WalletConnectButton() {
         )}
     </div>
   );
-}
+}
