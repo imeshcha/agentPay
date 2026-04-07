@@ -1,8 +1,25 @@
 import { WalletConnectButton } from "@/components/ConnectButton";
 import { ChatInterface } from "@/components/ChatInterface";
+import { SetupWizard } from "@/components/SetupWizard";
+import { useSmartAccount } from "@/lib/useSmartAccount";
+import { useSessionKey } from "@/lib/useSessionKey";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function ChatPage() {
+  const { smartAccountAddress } = useSmartAccount();
+  const { hasSessionKey } = useSessionKey();
+  const [isSetupComplete, setIsSetupComplete] = useState(false);
+
+  // Sync setup complete status
+  useEffect(() => {
+    if (smartAccountAddress && hasSessionKey) {
+      setIsSetupComplete(true);
+    } else {
+      setIsSetupComplete(false);
+    }
+  }, [smartAccountAddress, hasSessionKey]);
+
   return (
     <main className="relative min-h-screen pb-20 selection:bg-black selection:text-white bg-[#F0F0E8]">
       {/* Subtle Background Pattern */}
@@ -28,15 +45,21 @@ export default function ChatPage() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-10">
         <div className="mb-6 flex items-center justify-between">
-            <h1 className="text-xl font-extrabold text-black">Payments_Dashboard</h1>
+            <h1 className="text-xl font-extrabold text-black">
+              {isSetupComplete ? "Payments_Dashboard" : "Onboarding_Process"}
+            </h1>
             <Link href="/" className="text-xs font-bold text-zinc-600 hover:text-black transition-colors">
               ← Back to Home
             </Link>
         </div>
         
-        {/* Clean Chat Interface - No Hero/Terminal here */}
-        <div className="rounded-[2.5rem] border border-zinc-200 bg-white p-2 shadow-[0_32px_64px_-20px_rgba(0,0,0,0.08)]">
-          <ChatInterface />
+        {/* Conditional Layer: Setup Wizard or Chat Interface */}
+        <div className={!isSetupComplete ? "" : "rounded-[2.5rem] border border-zinc-200 bg-white p-2 shadow-[0_32px_64px_-20px_rgba(0,0,0,0.08)]"}>
+          {!isSetupComplete ? (
+            <SetupWizard onComplete={() => setIsSetupComplete(true)} />
+          ) : (
+            <ChatInterface />
+          )}
         </div>
       </div>
 
