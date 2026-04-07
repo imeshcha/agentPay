@@ -39,7 +39,7 @@ export default function Home() {
           <h1 className="text-6xl md:text-[8rem] font-extrabold leading-[0.9] text-black tracking-tighter">
             Payments made <br /> <span className="text-[#6366f1]">simply personal</span><span className="text-black">.</span>
           </h1>
-          <p className="mt-8 max-w-xl text-lg font-medium text-zinc-500 leading-relaxed md:text-xl">
+          <p className="mt-8 max-w-xl text-lg font-medium text-zinc-600 leading-relaxed md:text-xl">
             Chat with your bills like a close friend. A minimalist AI agent that settles assets instantly on-chain.
           </p>
 
@@ -52,7 +52,7 @@ export default function Home() {
             </Link>
             <div className="flex items-center gap-2 overflow-hidden px-4 py-2 bg-zinc-100/50 rounded-lg">
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Agent_Stable_Connection_Active</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Agent_Stable_Connection_Active</span>
             </div>
           </div>
 
@@ -65,10 +65,10 @@ export default function Home() {
               </div>
               <span className="font-mono text-[10px] text-zinc-500 uppercase font-black tracking-widest">session_logs</span>
             </div>
-            <div className="font-mono text-base text-zinc-400 leading-relaxed">
+            <div className="font-mono text-base text-zinc-500 leading-relaxed">
               <div className="flex gap-3 mb-2">
                 <span className="text-[#6366f1] font-bold">root@zing:~$</span>
-                <span className="text-zinc-200 animate-pulse">initializing_agent_interface...</span>
+                <span className="text-zinc-300 animate-pulse">initializing_agent_interface...</span>
               </div>
               <div className="text-zinc-500 text-sm ml-10">Ready for natural language input.</div>
             </div>
@@ -77,7 +77,7 @@ export default function Home() {
       </div>
 
       <footer className="relative z-10 py-10 border-t border-black/5 flex flex-col items-center">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">© 2026 _ Developed By Imesh Chathura (Non-commercial showcase project)</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-600">© 2026 _ Developed By Imesh Chathura (Non-commercial showcase project)</p>
       </footer>
     </main>
   );
