@@ -1,9 +1,8 @@
-import { WalletConnectButton } from "@/components/ConnectButton";
-import { ChatInterface } from "@/components/ChatInterface";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen pb-20 selection:bg-black selection:text-white overflow-x-hidden">
+    <main className="relative min-h-screen py-10 selection:bg-black selection:text-white overflow-hidden bg-[#F0F0E8]">
       {/* Calm Watermark Grid */}
       <div className="pointer-events-none fixed inset-0 z-0 flex items-center justify-center overflow-hidden opacity-[0.03]">
         <svg
@@ -31,52 +30,55 @@ export default function Home() {
         </svg>
       </div>
 
-      {/* Simplified Header */}
-      <nav className="relative z-10 flex items-center justify-between border-b border-black/5 bg-white/60 backdrop-blur px-6 py-6 sm:px-12">
-        <div className="flex flex-col">
-          <span className="text-2xl font-extrabold tracking-tighter text-black">ZingPay</span>
-          <span className="text-[10px] uppercase font-bold text-zinc-400 tracking-widest">Protocol Core v1.0</span>
-        </div>
-        <WalletConnectButton />
-      </nav>
-
       <div className="relative z-10 max-w-5xl mx-auto px-6">
-        {/* Softened Hero */}
-        <section className="flex flex-col items-center justify-center py-20 text-center md:py-28">
-          <div className="mb-4 inline-block rounded-full bg-zinc-100 px-4 py-1 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
+        {/* Welcome Section - Identical to Screenshot */}
+        <section className="flex flex-col items-center justify-center py-24 text-center md:py-36">
+          <div className="mb-6 inline-block rounded-full bg-white px-5 py-1.5 text-[10px] font-bold text-zinc-600 uppercase tracking-widest border border-zinc-100 shadow-sm">
             Arc Testnet Active
           </div>
-          <h2 className="text-5xl md:text-7xl font-extrabold leading-tight text-black tracking-tight">
-            Payments made <br /> <span className="text-[#6366f1]">simply personal</span>.
-          </h2>
-          <p className="mt-6 max-w-xl text-md font-medium text-zinc-500 leading-relaxed md:text-lg">
+          <h1 className="text-6xl md:text-[8rem] font-extrabold leading-[0.9] text-black tracking-tighter">
+            Payments made <br /> <span className="text-[#6366f1]">simply personal</span><span className="text-black">.</span>
+          </h1>
+          <p className="mt-8 max-w-xl text-lg font-medium text-zinc-500 leading-relaxed md:text-xl">
             Chat with your bills like a close friend. A minimalist AI agent that settles assets instantly on-chain.
           </p>
 
-          {/* Simple Terminal Info Block */}
-          <div className="mt-12 w-full max-w-xl overflow-hidden rounded-2xl border border-zinc-200 bg-black p-4 shadow-xl">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="flex gap-1.5">
-                <div className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
-                <div className="h-2.5 w-2.5 rounded-full bg-zinc-800" />
-              </div>
-              <span className="font-mono text-[9px] text-zinc-500 uppercase font-bold">session_logs</span>
+          <div className="mt-12 flex flex-col items-center gap-6">
+            <Link 
+              href="/chat"
+              className="bg-black text-white px-10 py-5 rounded-full text-lg font-bold tracking-tight hover:scale-110 active:scale-95 transition-all shadow-xl shadow-black/20"
+            >
+              Start Chatting →
+            </Link>
+            <div className="flex items-center gap-2 overflow-hidden px-4 py-2 bg-zinc-100/50 rounded-lg">
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Agent_Stable_Connection_Active</span>
             </div>
-            <div className="font-mono text-sm text-zinc-300">
+          </div>
+
+          {/* Simple Terminal Info Block - Exclusively on Welcome Page */}
+          <div className="mt-20 w-full max-w-2xl overflow-hidden rounded-[2rem] border border-zinc-200 bg-black p-8 shadow-2xl text-left">
+            <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
               <div className="flex gap-2">
-                <span className="text-[#6366f1]">root@zing:~$</span>
-                <span className="animate-pulse">initializing_agent_interface...</span>
+                <div className="h-3 w-3 rounded-full bg-zinc-800" />
+                <div className="h-3 w-3 rounded-full bg-zinc-900" />
               </div>
-              <div className="text-zinc-500 text-xs mt-1">Ready for natural language input.</div>
+              <span className="font-mono text-[10px] text-zinc-500 uppercase font-black tracking-widest">session_logs</span>
+            </div>
+            <div className="font-mono text-base text-zinc-400 leading-relaxed">
+              <div className="flex gap-3 mb-2">
+                <span className="text-[#6366f1] font-bold">root@zing:~$</span>
+                <span className="text-zinc-200 animate-pulse">initializing_agent_interface...</span>
+              </div>
+              <div className="text-zinc-500 text-sm ml-10">Ready for natural language input.</div>
             </div>
           </div>
         </section>
-
-        {/* Chat Experience Container */}
-        <div className="mt-4 rounded-3xl border border-zinc-200 bg-white p-2 shadow-[0_32px_64px_-20px_rgba(0,0,0,0.1)]">
-          <ChatInterface />
-        </div>
       </div>
+
+      <footer className="relative z-10 py-10 border-t border-black/5 flex flex-col items-center">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">© 2026 ZingPay__Autonomous_Protocol</p>
+      </footer>
     </main>
   );
 }
