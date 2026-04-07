@@ -88,7 +88,7 @@ export function ContactsPanel() {
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="text"
-                placeholder="Alias (e.g. Alice)"
+                placeholder="Alias (e.g. Kamal)"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 className="flex-1 border border-zinc-100 bg-zinc-50 px-4 py-3 rounded-xl text-sm font-medium text-black placeholder-zinc-300 focus:outline-none focus:bg-white focus:border-zinc-200 transition-all"

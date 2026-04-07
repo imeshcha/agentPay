@@ -360,10 +360,10 @@ export function WalletConnectButton() {
               <div className="mt-10 border border-zinc-100 bg-zinc-50 rounded-[2rem] p-8">
                 <div className="mb-6 text-[10px] font-bold uppercase tracking-widest text-zinc-400">Example Commands</div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
-                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Pay 5 USDC to Alice"</div>
-                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Save 0x... as Bob"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Pay 5 USDC to Kamal"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Save 0x... as Sanduni"</div>
                   <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Show my contacts"</div>
-                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Remove Alice"</div>
+                  <div className="bg-white border border-zinc-100 p-4 rounded-xl text-zinc-600 shadow-sm">"Remove Kamal"</div>
                 </div>
               </div>
             </div>

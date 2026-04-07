@@ -100,7 +100,7 @@ export function ChatInterface() {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Type a message (e.g. 'Pay 5 USDC to Alice')"
+                placeholder="Type a message (e.g. 'Pay 5 USDC to Kamal')"
                 className="flex-1 bg-transparent px-5 py-4 font-medium text-black placeholder-zinc-300 focus:outline-none disabled:opacity-50"
                 disabled={isLoading}
               />
