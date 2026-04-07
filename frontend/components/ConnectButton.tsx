@@ -186,16 +186,16 @@ export function WalletConnectButton() {
                       </button>
                     </div>
 
-                    {/* Smart Account Address */}
+                    {/* Smart Account Address (Showing Session Key for user simplicity) */}
                     <div className="mb-6 bg-zinc-50 border border-zinc-100 p-5 rounded-2xl">
                       <div className="mb-3 text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Secure Smart Account</div>
                       <p className="break-all font-mono text-[11px] text-zinc-600 mb-4 bg-white p-3 border border-zinc-100 rounded-xl">
-                        {smartAccountAddress || "No account found"}
+                        {sessionKeyAddress || "No account found"}
                       </p>
-                      {smartAccountAddress ? (
+                      {sessionKeyAddress ? (
                         <button
                           type="button"
-                          onClick={() => copyText(smartAccountAddress, "smart")}
+                          onClick={() => copyText(sessionKeyAddress, "smart")}
                           className="bg-black px-4 py-2 rounded-xl text-[10px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 transition-colors"
                         >
                           {copiedField === "smart" ? "Copied" : "Copy Smart Address"}
@@ -203,11 +203,11 @@ export function WalletConnectButton() {
                       ) : (
                         <button
                           type="button"
-                          onClick={createAccount}
-                          disabled={isAccountLoading}
+                          onClick={setupSessionKey}
+                          disabled={isSessionLoading}
                           className="w-full bg-black px-4 py-3 rounded-xl text-[11px] font-bold text-white uppercase tracking-widest hover:bg-zinc-800 disabled:opacity-50"
                         >
-                          {isAccountLoading ? "Setting up..." : "Setup Smart Account"}
+                          {isSessionLoading ? "Setting up..." : "Setup Smart Account"}
                         </button>
                       )}
                     </div>
