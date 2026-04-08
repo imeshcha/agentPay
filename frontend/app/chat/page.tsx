@@ -36,7 +36,7 @@ export default function ChatPage() {
       <div className="relative z-10 max-w-5xl mx-auto px-6 pt-10">
         <div className="mb-6 flex items-center justify-between">
             <h1 className="text-xl font-extrabold text-black">
-              {isReady ? "Payments_Dashboard_Active" : "Agent_Onboarding_Wizard"}
+              {isReady ? "Payments_Dashboard" : "Agent_Onboarding_Wizard"}
             </h1>
             <Link href="/" className="text-xs font-bold text-zinc-600 hover:text-black transition-colors">
               ← Back to Home
