@@ -33,7 +33,7 @@ If the message contains a payment to a person's name (not an address), respond w
 }
 
 SAVE CONTACT:
-If the user wants to save a contact like "save 0x123 as Alice" or "add Alice 0x123", respond with:
+If the user wants to save a contact like "save 0x123 as Kamal" or "add Kamal 0x123", respond with:
 {
   "isContact": true,
   "action": "save",
@@ -42,7 +42,7 @@ If the user wants to save a contact like "save 0x123 as Alice" or "add Alice 0x1
 }
 
 DELETE CONTACT:
-If the user wants to remove a contact like "remove Alice" or "delete contact Bob", respond with:
+If the user wants to remove a contact like "remove Kamal" or "delete contact Bob", respond with:
 {
   "isContact": true,
   "action": "delete",
@@ -71,13 +71,13 @@ Rules:
 - Contact names are case-insensitive
 
 Examples:
-"Pay 5 USDC to Alice" -> {"isPayment":true,"toType":"contact","to":"Alice","amount":"5","token":"USDC","description":"Payment to Alice"}
+"Pay 5 USDC to Kamal" -> {"isPayment":true,"toType":"contact","to":"Kamal","amount":"5","token":"USDC","description":"Payment to Kamal"}
 "Send 10 USDC to 0x742d35Cc..." -> {"isPayment":true,"toType":"address","to":"0x742d35Cc...","amount":"10","token":"USDC","description":"Payment of 10 USDC"}
 "Save 0x742d35Cc... as Bob" -> {"isContact":true,"action":"save","contactName":"Bob","contactAddress":"0x742d35Cc..."}
-"Add Alice 0x742d35Cc..." -> {"isContact":true,"action":"save","contactName":"Alice","contactAddress":"0x742d35Cc..."}
-"Remove Alice" -> {"isContact":true,"action":"delete","contactName":"Alice"}
+"Add Kamal 0x742d35Cc..." -> {"isContact":true,"action":"save","contactName":"Kamal","contactAddress":"0x742d35Cc..."}
+"Remove Kamal" -> {"isContact":true,"action":"delete","contactName":"Kamal"}
 "Show my contacts" -> {"isContact":true,"action":"list"}
-"hello" -> {"isPayment":false,"isContact":false,"reply":"Hello! I can send USDC payments and manage contacts. Try: Pay 5 USDC to Alice"}`;
+"hello" -> {"isPayment":false,"isContact":false,"reply":"Hello! I can send USDC payments and manage contacts. Try: Pay 5 USDC to Kamal"}`;
 
 async function parsePaymentIntent(userMessage) {
   try {
@@ -102,7 +102,7 @@ async function parsePaymentIntent(userMessage) {
     return {
       isPayment: false,
       isContact: false,
-      reply: "I had trouble understanding that. Try: Pay 5 USDC to Alice, or Save 0x123... as Alice",
+      reply: "I had trouble understanding that. Try: Pay 5 USDC to Kamal, or Save 0x123... as Kamal",
     };
   }
 }

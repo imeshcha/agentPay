@@ -74,7 +74,7 @@ router.post("/message", async (req, res) => {
 
         if (contacts.length === 0) {
           return res.json({
-            reply: "You have no saved contacts yet. Try: Save 0x123... as Alice",
+            reply: "You have no saved contacts yet. Try: Save 0x123... as Kamal",
             isPayment: false,
             isContact: true,
             action: "list",
@@ -99,7 +99,7 @@ router.post("/message", async (req, res) => {
       if (intent.action === "save") {
         if (!intent.contactName || !intent.contactAddress) {
           return res.json({
-            reply: "Please provide both a name and address. Example: Save 0x123... as Alice",
+            reply: "Please provide both a name and address. Example: Save 0x123... as Kamal",
             isPayment: false,
             isContact: true,
           });

@@ -7,8 +7,8 @@ Send USDC payments using plain English chat commands.
 - Connect MetaMask wallet
 - Smart account creation (ERC-4337)
 - Pay by chat: "Pay 5 USDC to 0x..."
-- Save contacts: "Save 0x123 as Alice"
-- Pay by name: "Pay 5 USDC to Alice"
+- Save contacts: "Save 0x123 as Kamal"
+- Pay by name: "Pay 5 USDC to Kamal"
 - Transaction receipts with ArcScan links
 
 ## Tech Stack
